@@ -15,6 +15,10 @@ const data = [
   "Los Angeles battles huge wildfires.",
 ];
 
+function percentDeference(a, b) {
+  return 100 * Math.abs((a - b) / ((a + b) / 2));
+}
+
 export default function AppSider() {
   const [loading, setLoading] = useState(false);
   const [crypto, setCrypto] = useState([]);
@@ -26,7 +30,18 @@ export default function AppSider() {
       const { result } = await fakeFetchCrypto();
       const assets = await fetchAssets();
 
-      setAssets(assets);
+      setAssets(
+        assets.map((asset) => {
+          const coin = result.find((c) => c.id === asset.id);
+          return {
+            grow: asset.price < coin.price,
+            growPercent: percentDeference(asset.price, coin.price),
+            totalAmount: asset.amount * coin.price,
+            totalProfit: asset.amount * coin.price - asset.amount * asset.price,
+            ...asset,
+          };
+        })
+      );
       setCrypto(result);
       setLoading(false);
     }
