@@ -1,8 +1,8 @@
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
-import { Layout, Card, Statistic, List, Typography, Spin } from "antd";
+import { Layout, Card, Statistic, List, Typography, Spin, Tag } from "antd";
 import { useEffect, useState } from "react";
 import { fakeFetchCrypto, fetchAssets } from "../../api";
-import { percentDeference } from "../../utils";
+import { percentDeference, capitalize } from "../../utils";
 
 const siderStyle = {
   padding: "1rem",
@@ -46,7 +46,7 @@ export default function AppSider() {
       {assets.map((asset) => (
         <Card key={asset.id} style={{ marginBottom: "1rem" }}>
           <Statistic
-            title={asset.id}
+            title={capitalize(asset.id)}
             value={asset.totalAmount}
             precision={2}
             valueStyle={{
@@ -58,14 +58,30 @@ export default function AppSider() {
           <List
             size="small"
             dataSource={[
-              { title: "Total Profit", value: asset.totalProfit },
-              { title: "Asset Amount", value: asset.amount },
-              { title: "Difference", value: asset.growPercent },
+              {
+                title: "Total Profit",
+                value: asset.totalProfit,
+                withTag: true,
+              },
+              { title: "Asset Amount", value: asset.amount, isPlain: true },
+              // { title: "Difference", value: asset.growPercent },
             ]}
             renderItem={(item) => (
               <List.Item>
                 <span>{item.title}</span>
-                <span>{item.value}</span>
+                <span>
+                  {item.withTag && (
+                    <Tag color={asset.grow ? "green" : "red"}>
+                      {asset.growPercent}%
+                    </Tag>
+                  )}
+                  {item.isPlain && item.value}
+                  {!item.isPlain && (
+                    <Typography.Text type={asset.grow ? "success" : "danger"}>
+                      {item.value.toFixed(2)}$
+                    </Typography.Text>
+                  )}
+                </span>
               </List.Item>
             )}
           />
