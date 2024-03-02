@@ -1,12 +1,16 @@
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import { Layout, Card, Statistic, List, Typography, Spin, Tag } from "antd";
 import { capitalize } from "../../utils";
+import { useContext } from "react";
+import CryptoContext from "../../context/crypto-context";
 
 const siderStyle = {
   padding: "1rem",
 };
 
 export default function AppSider() {
+  const { loading, assets } = useContext(CryptoContext);
+
   if (loading) {
     return <Spin fullscreen />;
   }
