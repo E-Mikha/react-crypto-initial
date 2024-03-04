@@ -8,7 +8,7 @@ const CryptoContext = createContext({
   loading: false,
 });
 
-export function CryptoContextProvider(children) {
+export function CryptoContextProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [crypto, setCrypto] = useState([]);
   const [assets, setAssets] = useState([]);
