@@ -7,6 +7,7 @@ import {
   Form,
   InputNumber,
   Button,
+  DatePicker,
 } from "antd";
 import { useState } from "react";
 import { useCrypto } from "../../context/crypto-context";
@@ -41,7 +42,7 @@ export default function AddAssetForm() {
   }
 
   function onFinish(value) {
-    console.log("finish", values);
+    console.log("finish", value);
   }
 
   return (
@@ -87,10 +88,18 @@ export default function AddAssetForm() {
       </Form.Item>
 
       <Form.Item label="Price" name="price">
-        <InputNumber />
+        <InputNumber disabled style={{ width: "100%" }} />
       </Form.Item>
 
-      <Form.Item>
+      <Form.Item label="Total" name="total">
+        <InputNumber disabled style={{ width: "100%" }} />
+      </Form.Item>
+
+      <Form.Item label="Date & Time" name="date">
+        <DatePicker showTime />
+      </Form.Item>
+
+      <Form.Item style={{ width: "100%" }}>
         <Button type="primary" htmlType="submit">
           Add Asset
         </Button>
